@@ -9,6 +9,7 @@ public class Hunter {
     private String hunterName;
     private String[] kit;
     private int gold;
+    private boolean broke;
 
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
@@ -20,6 +21,14 @@ public class Hunter {
         this.hunterName = hunterName;
         kit = new String[5]; // only 5 possible items can be stored in kit
         gold = startingGold;
+    }
+
+    /**
+     * Returns if Hunter is broke.
+     * @return status of the Hunter on if they're broke or not
+     */
+    public boolean isBroke() {
+        return broke;
     }
 
     //Accessors
@@ -35,7 +44,8 @@ public class Hunter {
     public void changeGold(int modifier) {
         gold += modifier;
         if (gold < 0) {
-            gold = 0;
+            System.out.println("Game Over! You're broke!");
+            broke = true;
         }
     }
 
