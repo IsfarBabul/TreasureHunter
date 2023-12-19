@@ -5,7 +5,7 @@ import java.util.Scanner;
  * It handles the display of the menu and the processing of the player's choices.<p>
  * It handles all the display based on the messages it receives from the Town object. <p>
  *
- * This code has been adapted from Ivan Turner's original program -- thank you Mr. Turner!
+ * This code has been adapted from Ivan Turner's original program -- thank you, Mr. Turner!
  */
 
 public class TreasureHunter {
