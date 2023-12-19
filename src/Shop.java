@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * The Shop class controls the cost of the items in the Treasure Hunt game. <p>
  * The Shop class also acts as a go between for the Hunter's buyItem() method. <p>
- * This code has been adapted from Ivan Turner's original program -- thank you Mr. Turner!
+ * This code has been adapted from Ivan Turner's original program -- thank you, Mr. Turner!
  */
 
 public class Shop {
