@@ -57,6 +57,12 @@ public class TreasureHunter {
         } else if (hard.equals("test")) {
             testMode = true;
             hunter.changeGold(90);
+            String[] items = {"water", "rope", "machete", "horse", "boat"};
+            int[] cost = {2, 4, 6, 12, 20};
+            for (int i = 0; i < items.length; i++) {
+                hunter.changeGold(cost[i]);
+                hunter.buyItem(items[i], cost[i]);
+            }
         }
     }
 
@@ -72,15 +78,9 @@ public class TreasureHunter {
 
             // and the town is "tougher"
             toughness = 0.75;
-        } else if (testMode) {
-            String[] items = {"water", "rope", "machete", "horse", "boat"};
-            int[] cost = {2, 4, 6, 12, 20};
-            for (int i = 0; i < items.length; i++) {
-                hunter.changeGold(cost[i]);
-                hunter.buyItem(items[i], cost[i]);
-            }
         }
-
+        String[] treasures = {"crown", "trophy", "gem", "dirt"};
+        String treasure = treasures[(int) (Math.random() * 4)];
         // note that we don't need to access the Shop object
         // outside of this method, so it isn't necessary to store it as an instance
         // variable; we can leave it as a local variable
@@ -116,6 +116,7 @@ public class TreasureHunter {
             System.out.println("(S)ell something at the shop.");
             System.out.println("(M)ove on to a different town.");
             System.out.println("(L)ook for trouble!");
+            System.out.println("(H)unt for treasure!");
             System.out.println("Give up the hunt and e(X)it.");
             System.out.println();
             System.out.print("What's your next move? ");
