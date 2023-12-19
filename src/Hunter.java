@@ -157,7 +157,7 @@ public class Hunter {
     public String toString() {
         String str = hunterName + " has " + Colors.YELLOW + gold + Colors.RESET + " gold";
         if (!kitIsEmpty()) {
-            str += " and " + getInventory();
+            str += " and " +  Colors.PURPLE + getInventory() + Colors.RESET;
         }
         return str;
     }
