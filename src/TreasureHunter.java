@@ -72,6 +72,13 @@ public class TreasureHunter {
 
             // and the town is "tougher"
             toughness = 0.75;
+        } else if (testMode) {
+            String[] items = {"water", "rope", "machete", "horse", "boat"};
+            int[] cost = {2, 4, 6, 12, 20};
+            for (int i = 0; i < items.length; i++) {
+                hunter.changeGold(cost[i]);
+                hunter.buyItem(items[i], cost[i]);
+            }
         }
 
         // note that we don't need to access the Shop object
