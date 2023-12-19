@@ -57,8 +57,8 @@ public class TreasureHunter {
         } else if (hard.equals("test")) {
             testMode = true;
             hunter.changeGold(90);
-            String[] items = {"water", "rope", "machete", "horse", "boat"};
-            int[] cost = {2, 4, 6, 12, 20};
+            String[] items = {"water", "rope", "boots", "machete", "horse", "boat"};
+            int[] cost = {2, 4, 6, 6, 12, 20};
             for (int i = 0; i < items.length; i++) {
                 hunter.changeGold(cost[i]);
                 hunter.buyItem(items[i], cost[i]);
