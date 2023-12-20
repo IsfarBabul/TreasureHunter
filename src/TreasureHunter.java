@@ -15,8 +15,12 @@ public class TreasureHunter {
     // instance variables
     private Town currentTown;
     private Hunter hunter;
+    private static final String[] treasures = {"crown", "trophy", "gem", "dust"};
+    private String treasure;
+    private boolean searchedTown;
+    private boolean dugTown;
     private boolean hardMode;
-    private boolean testMode;
+    private boolean win;
 
     /**
      * Constructs the Treasure Hunter game.
@@ -26,7 +30,8 @@ public class TreasureHunter {
         currentTown = null;
         hunter = null;
         hardMode = false;
-        testMode = false;
+        treasure = "";
+        win = false;
     }
 
     /**
@@ -50,18 +55,17 @@ public class TreasureHunter {
         // set hunter instance variable
         hunter = new Hunter(name, 10);
 
-        System.out.print("Hard mode? (y/n): ");
+        System.out.print("Choose mode (e, n or h): ");
         String hard = SCANNER.nextLine().toLowerCase();
-        if (hard.equals("y")) {
+        if (hard.equals("h")) {
             hardMode = true;
         } else if (hard.equals("test")) {
-            testMode = true;
             hunter.changeGold(90);
-            String[] items = {"water", "rope", "boots", "machete", "horse", "boat"};
-            int[] cost = {2, 4, 6, 6, 12, 20};
+            String[] items = {"water", "rope", "boots", "machete", "shovel", "horse", "boat"};
+            int[] costs = {2, 4, 6, 6, 8, 12, 20};
             for (int i = 0; i < items.length; i++) {
-                hunter.changeGold(cost[i]);
-                hunter.buyItem(items[i], cost[i]);
+                hunter.changeGold(costs[i]);
+                hunter.buyItem(items[i], costs[i]);
             }
         }
     }
@@ -79,8 +83,9 @@ public class TreasureHunter {
             // and the town is "tougher"
             toughness = 0.75;
         }
-        String[] treasures = {"crown", "trophy", "gem", "dirt"};
-        String treasure = treasures[(int) (Math.random() * 4)];
+        treasure = treasures[(int) (Math.random() * 4)];
+        searchedTown = false;
+        dugTown = false;
         // note that we don't need to access the Shop object
         // outside of this method, so it isn't necessary to store it as an instance
         // variable; we can leave it as a local variable
@@ -106,7 +111,7 @@ public class TreasureHunter {
     private void showMenu() {
         String choice = "";
 
-        while (!choice.equals("x") && !hunter.isBroke()) {
+        while (!choice.equals("x") && !hunter.isBroke() && !win) {
             System.out.println();
             System.out.println(currentTown.getLatestNews());
             System.out.println("***");
@@ -117,11 +122,18 @@ public class TreasureHunter {
             System.out.println("(M)ove on to a different town.");
             System.out.println("(L)ook for trouble!");
             System.out.println("(H)unt for treasure!");
+            System.out.println("(D)ig for gold!");
             System.out.println("Give up the hunt and e(X)it.");
             System.out.println();
             System.out.print("What's your next move? ");
             choice = SCANNER.nextLine().toLowerCase();
             processChoice(choice);
+        }
+        if (hunter.isBroke()) {
+            System.out.println(currentTown.getLatestNews());
+            System.out.println("Game Over! You can't pay your debt!");
+        } else if (win) {
+            System.out.println("Congratulations, you have found the last of the three treasures, you win!");
         }
     }
 
@@ -140,10 +152,58 @@ public class TreasureHunter {
             }
         } else if (choice.equals("l")) {
             currentTown.lookForTrouble();
+        } else if (choice.equals("h")) {
+            if (!searchedTown) {
+                System.out.println("You found a " + treasure + "!");
+                if (hunter.hasItemInContainer(treasure, hunter.getCollection())) {
+                    System.out.println("You already have this treasure!");
+                }
+                boolean added = hunter.addTreasure(treasure);
+                if (!added) {
+                    System.out.println("You did not add the " + treasure + ".");
+                    System.out.println("You want to keep your collection clean.");
+                } else {
+                    win = determineWin();
+                }
+                searchedTown = true;
+            } else {
+                System.out.println("You have already searched this town!");
+            }
+        } else if (choice.equals("d")) {
+            if (hunter.hasItemInContainer("shovel", hunter.getKit()) && !dugTown) {
+                int findGold = (int) (Math.random() * 2);
+                if (findGold == 0) {
+                    int goldAmount = (int) (Math.random() * 20) + 1;
+                    System.out.println("You dug up " + goldAmount + " gold!");
+                    hunter.changeGold(goldAmount);
+                } else {
+                    System.out.println("You dug but only found dirt");
+                }
+                dugTown = true;
+            } else if (dugTown) {
+                System.out.println("You already dug for gold in this town.");
+            } else {
+                System.out.println("You can't dig for gold without a shovel");
+            }
         } else if (choice.equals("x")) {
             System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
         } else {
             System.out.println("Yikes! That's an invalid option! Try again.");
         }
+    }
+
+    /**
+     * Determines whether a game has been won or not.
+     *
+     * @return whether the win condition is met or not
+     */
+    private boolean determineWin() {
+        String[] treasureCollection = hunter.getCollection();
+        for (String treasure : treasureCollection) {
+            if (treasure == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

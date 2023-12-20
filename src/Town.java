@@ -63,14 +63,14 @@ public class Town {
             String item = terrain.getNeededItem();
             printMessage = "You used your " + item + " to cross the " + Colors.CYAN + terrain.getTerrainName() + Colors.RESET + ".";
             if (checkItemBreak()) {
-                hunter.removeItemFromKit(item);
+                hunter.removeItemFromContainer(item, hunter.getKit());
                 printMessage += "\nUnfortunately, you lost your " + item + ".";
             }
 
             return true;
         }
 
-        printMessage = "You can't leave town, " + hunter.getHunterName() + ". You don't have a " + Colors.CYAN + terrain.getNeededItem() + Colors.CYAN +".";
+        printMessage = "You can't leave town, " + hunter.getHunterName() + ". You don't have a " + Colors.CYAN + terrain.getNeededItem() + Colors.CYAN + ".";
         return false;
     }
 
@@ -81,6 +81,7 @@ public class Town {
      */
     public void enterShop(String choice) {
         shop.enter(hunter, choice);
+        printMessage = "You left the shop";
     }
 
     /**
