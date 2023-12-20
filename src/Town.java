@@ -18,7 +18,7 @@ public class Town {
      * @param shop The town's shoppe.
      * @param toughness The surrounding terrain.
      */
-    public Town(Shop shop, double toughness) {
+    public Town(Shop shop, double toughness, String mode) {
         this.shop = shop;
         this.terrain = getNewTerrain();
 

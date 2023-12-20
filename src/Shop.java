@@ -29,7 +29,7 @@ public class Shop {
      *
      * @param markdown Percentage of markdown for selling items in decimal format.
      */
-    public Shop(double markdown) {
+    public Shop(double markdown, String mode) {
         this.markdown = markdown;
         customer = null; // is set in the enter method
     }
@@ -87,6 +87,7 @@ public class Shop {
      */
     public String inventory() {
         String str = "";
+        str += "Sword: " + SWORD_COST + " gold\n";
         str += "Water: " + WATER_COST + " gold\n";
         str += "Rope: " + ROPE_COST + " gold\n";
         str += "Boots: " + BOOTS_COST + " gold\n";
@@ -148,7 +149,9 @@ public class Shop {
      * @return The cost of the item or 0 if the item is not found.
      */
     public int getCostOfItem(String item) {
-        if (item.equals("water")) {
+        if (item.equals("sword")) {
+            return SWORD_COST;
+        } else if (item.equals("water")) {
             return WATER_COST;
         } else if (item.equals("rope")) {
             return ROPE_COST;

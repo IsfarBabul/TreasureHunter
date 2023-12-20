@@ -19,6 +19,7 @@ public class TreasureHunter {
     private String treasure;
     private boolean searchedTown;
     private boolean dugTown;
+    private String mode;
     private boolean easyMode;
     private boolean hardMode;
     private boolean samuraiMode;
@@ -31,6 +32,7 @@ public class TreasureHunter {
         // these will be initialized in the play method
         currentTown = null;
         hunter = null;
+        mode = "n";
         easyMode = false;
         hardMode = false;
         samuraiMode = false;
@@ -76,6 +78,7 @@ public class TreasureHunter {
         } else if (mode.equals("s")) {
             samuraiMode = true;
         }
+        this.mode = mode;
     }
 
     /**
@@ -101,12 +104,12 @@ public class TreasureHunter {
         // note that we don't need to access the Shop object
         // outside of this method, so it isn't necessary to store it as an instance
         // variable; we can leave it as a local variable
-        Shop shop = new Shop(markdown);
+        Shop shop = new Shop(markdown, mode);
 
         // creating the new Town -- which we need to store as an instance
         // variable in this class, since we need to access the Town
         // object in other methods of this class
-        currentTown = new Town(shop, toughness);
+        currentTown = new Town(shop, toughness, mode);
 
         // calling the hunterArrives method, which takes the Hunter
         // as a parameter; note this also could have been done in the
@@ -217,15 +220,5 @@ public class TreasureHunter {
             }
         }
         return true;
-    }
-
-    public String getMode() {
-        String getMode = "n";
-        if (hardMode) {
-            getMode = "h";
-        } else if (easyMode) {
-            getMode = "e";
-        }
-        return getMode;
     }
 }
