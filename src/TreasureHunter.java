@@ -21,6 +21,7 @@ public class TreasureHunter {
     private boolean dugTown;
     private boolean easyMode;
     private boolean hardMode;
+    private boolean samuraiMode;
     private boolean win;
 
     /**
@@ -32,6 +33,7 @@ public class TreasureHunter {
         hunter = null;
         easyMode = false;
         hardMode = false;
+        samuraiMode = false;
         treasure = "";
         win = false;
     }
@@ -71,8 +73,9 @@ public class TreasureHunter {
                 hunter.changeGold(costs[i]);
                 hunter.buyItem(items[i], costs[i]);
             }
+        } else if (mode.equals("s")) {
+            samuraiMode = true;
         }
-
     }
 
     /**

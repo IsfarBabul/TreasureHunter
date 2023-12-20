@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Shop {
     // constants
+    private static final int SWORD_COST = 0;
     private static final int WATER_COST = 2;
     private static final int ROPE_COST = 4;
     private static final int BOOTS_COST = 6;
@@ -85,7 +86,8 @@ public class Shop {
      * @return the string representing the shop's items available for purchase and their prices.
      */
     public String inventory() {
-        String str = "Water: " + WATER_COST + " gold\n";
+        String str = "";
+        str += "Water: " + WATER_COST + " gold\n";
         str += "Rope: " + ROPE_COST + " gold\n";
         str += "Boots: " + BOOTS_COST + " gold\n";
         str += "Machete: " + MACHETE_COST + " gold\n";
