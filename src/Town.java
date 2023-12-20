@@ -70,7 +70,7 @@ public class Town {
             return true;
         }
 
-        printMessage = "You can't leave town, " + hunter.getHunterName() + ". You don't have a " + Colors.CYAN + terrain.getNeededItem() + Colors.CYAN +".";
+        printMessage = "You can't leave town, " + hunter.getHunterName() + ". You don't have a " + Colors.CYAN + terrain.getNeededItem() + Colors.CYAN + ".";
         return false;
     }
 
