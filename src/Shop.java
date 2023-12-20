@@ -23,6 +23,7 @@ public class Shop {
     // instance variables
     private double markdown;
     private Hunter customer;
+    private String mode;
 
     /**
      * The Shop constructor takes in a markdown value and leaves customer null until one enters the shop.
@@ -32,6 +33,7 @@ public class Shop {
     public Shop(double markdown, String mode) {
         this.markdown = markdown;
         customer = null; // is set in the enter method
+        this.mode = mode;
     }
 
     /**

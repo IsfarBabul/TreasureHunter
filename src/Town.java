@@ -11,6 +11,7 @@ public class Town {
     private Terrain terrain;
     private String printMessage;
     private boolean toughTown;
+    private String mode;
 
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -21,6 +22,7 @@ public class Town {
     public Town(Shop shop, double toughness, String mode) {
         this.shop = shop;
         this.terrain = getNewTerrain();
+        this.mode = mode;
 
         // the hunter gets set using the hunterArrives method, which
         // gets called from a client class
