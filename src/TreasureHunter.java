@@ -19,6 +19,7 @@ public class TreasureHunter {
     private String treasure;
     private boolean searchedTown;
     private boolean dugTown;
+    private boolean easyMode;
     private boolean hardMode;
     private boolean win;
 
@@ -29,6 +30,7 @@ public class TreasureHunter {
         // these will be initialized in the play method
         currentTown = null;
         hunter = null;
+        easyMode = false;
         hardMode = false;
         treasure = "";
         win = false;
@@ -56,10 +58,12 @@ public class TreasureHunter {
         hunter = new Hunter(name, 10);
 
         System.out.print("Choose mode (e, n or h): ");
-        String hard = SCANNER.nextLine().toLowerCase();
-        if (hard.equals("h")) {
+        String mode = SCANNER.nextLine().toLowerCase();
+        if (mode.equals("e")) {
+            easyMode = true;
+        } else if (mode.equals("h")) {
             hardMode = true;
-        } else if (hard.equals("test")) {
+        } else if (mode.equals("test")) {
             hunter.changeGold(90);
             String[] items = {"water", "rope", "boots", "machete", "shovel", "horse", "boat"};
             int[] costs = {2, 4, 6, 6, 8, 12, 20};
@@ -68,6 +72,7 @@ public class TreasureHunter {
                 hunter.buyItem(items[i], costs[i]);
             }
         }
+
     }
 
     /**
@@ -82,6 +87,10 @@ public class TreasureHunter {
 
             // and the town is "tougher"
             toughness = 0.75;
+        }
+        if (easyMode) {
+            markdown = 1;
+            toughness = .2;
         }
         treasure = treasures[(int) (Math.random() * 4)];
         searchedTown = false;
@@ -205,5 +214,15 @@ public class TreasureHunter {
             }
         }
         return true;
+    }
+
+    public String getMode() {
+        String getMode = "n";
+        if (hardMode) {
+            getMode = "h";
+        } else if (easyMode) {
+            getMode = "e";
+        }
+        return getMode;
     }
 }
