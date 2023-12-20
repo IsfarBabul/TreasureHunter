@@ -58,6 +58,7 @@ public class Shop {
                     buyItem(item);
                 }
             }
+            System.out.println("You left the shop.");
         } else {
             System.out.println("What're you lookin' to sell? ");
             System.out.print("You currently have the following items: " + customer.getInventory());
@@ -73,6 +74,7 @@ public class Shop {
                     sellItem(item);
                 }
             }
+            System.out.println("You left the shop.");
         }
     }
 
