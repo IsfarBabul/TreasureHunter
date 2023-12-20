@@ -74,8 +74,8 @@ public class Shop {
                     sellItem(item);
                 }
             }
-            System.out.println("You left the shop.");
         }
+        System.out.println("You left the shop.");
     }
 
     /**
