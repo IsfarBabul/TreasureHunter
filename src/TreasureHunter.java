@@ -63,10 +63,11 @@ public class TreasureHunter {
             int[] costs = {2, 4, 6, 6, 8, 12, 20};
             for (int i = 0; i < items.length; i++) {
                 hunter.changeGold(costs[i]);
-                hunter.buyItem(items[i], costs[i]);
+                hunter.buyItem(items[i], costs[i], mode);
             }
         }
         this.mode = mode;
+        hunter.setHunterMode(mode);
     }
 
     /**

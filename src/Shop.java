@@ -90,7 +90,9 @@ public class Shop {
      */
     public String inventory() {
         String str = "";
-        str += "Sword: " + SWORD_COST + " gold\n";
+        if (mode.equals("s")) {
+            str += "Sword: " + SWORD_COST + " gold\n";
+        }
         str += "Water: " + WATER_COST + " gold\n";
         str += "Rope: " + ROPE_COST + " gold\n";
         str += "Boots: " + BOOTS_COST + " gold\n";
@@ -109,7 +111,7 @@ public class Shop {
      */
     public void buyItem(String item) {
         int costOfItem = checkMarketPrice(item, true);
-        if (customer.buyItem(item, costOfItem)) {
+        if (customer.buyItem(item, costOfItem, mode)) {
             System.out.println("Ye' got yerself a " + item + ". Come again soon.");
         } else {
             System.out.println("Hmm, either you don't have enough gold or you've already got one of those!");

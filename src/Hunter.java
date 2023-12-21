@@ -20,9 +20,16 @@ public class Hunter {
      */
     public Hunter(String hunterName, int startingGold) {
         this.hunterName = hunterName;
-        kit = new String[7]; // only 5 possible items can be stored in kit
         collection = new String[3];
         gold = startingGold;
+    }
+
+    public void setHunterMode(String mode) {
+        if (mode.equals("s")) {
+            kit = new String[8];
+        } else {
+            kit = new String[7]; // only 7 possible items can be stored in kit unless samurai then 8
+        }
     }
 
     /**
@@ -73,12 +80,18 @@ public class Hunter {
      * @param costOfItem The cost of the item.
      * @return true if the item is successfully bought.
      */
-    public boolean buyItem(String item, int costOfItem) {
-        if (costOfItem == 0 || gold < costOfItem || hasItemInContainer(item, kit)) {
+    public boolean buyItem(String item, int costOfItem, String mode) {
+        if ((costOfItem == 0 && !item.equals("sword")) || (gold < costOfItem && !mode.equals("s")) || hasItemInContainer(item, kit)) {
             return false;
         }
-
-        gold -= costOfItem;
+        if (!mode.equals("s")) {
+            gold -= costOfItem;
+        } else {
+            System.out.println(Colors.GREEN + "Wait, what are you doing? Why are you pulling out that sword?");
+            String[] fragileItems = {"water", "rope", "boots", "shovel", "a lampshade", "a painting"};
+            int randItem = (int) (Math.random() * 6);
+            System.out.println("You slash " + fragileItems[randItem] + ". You are given the requested item for free.");
+        }
         addItem(item, kit);
         return true;
     }

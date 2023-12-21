@@ -118,8 +118,8 @@ public class Town {
             int goldDiff = (int) (Math.random() * 10) + 1;
             if (Math.random() > noTroubleChance) {
                 if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
-                    printMessage += "Ahh, this stranger has a sword! This guy's for real!" + Colors.RESET + " Here, take my gold. I'm outta here!";
-                    printMessage += "\nYou intimidated the brawler and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
+                    printMessage += Colors.GREEN + "Ahh, this stranger has a sword! This guy's for real!" + Colors.RESET + " Here, take my gold. I'm outta here!";
+                    printMessage += Colors.GREEN + "\nYou intimidated the brawler and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
                 } else {
                     printMessage += "Okay, stranger! You proved yer mettle." + Colors.RESET + " Here, take my gold.";
                     printMessage += "\nYou won the brawl and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
