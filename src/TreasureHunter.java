@@ -20,9 +20,6 @@ public class TreasureHunter {
     private boolean searchedTown;
     private boolean dugTown;
     private String mode;
-    private boolean easyMode;
-    private boolean hardMode;
-    private boolean samuraiMode;
     private boolean win;
 
     /**
@@ -33,9 +30,6 @@ public class TreasureHunter {
         currentTown = null;
         hunter = null;
         mode = "n";
-        easyMode = false;
-        hardMode = false;
-        samuraiMode = false;
         treasure = "";
         win = false;
     }
@@ -63,12 +57,7 @@ public class TreasureHunter {
 
         System.out.print("Choose mode (e, n or h): ");
         String mode = SCANNER.nextLine().toLowerCase();
-        if (mode.equals("e")) {
-            easyMode = true;
-            hunter.changeGold(10);
-        } else if (mode.equals("h")) {
-            hardMode = true;
-        } else if (mode.equals("test")) {
+        if (mode.equals("test")) {
             hunter.changeGold(90);
             String[] items = {"water", "rope", "boots", "machete", "shovel", "horse", "boat"};
             int[] costs = {2, 4, 6, 6, 8, 12, 20};
@@ -76,8 +65,6 @@ public class TreasureHunter {
                 hunter.changeGold(costs[i]);
                 hunter.buyItem(items[i], costs[i]);
             }
-        } else if (mode.equals("s")) {
-            samuraiMode = true;
         }
         this.mode = mode;
     }
@@ -88,14 +75,14 @@ public class TreasureHunter {
     private void enterTown() {
         double markdown = 0.5;
         double toughness = 0.4;
-        if (hardMode) {
+        if (mode.equals("h")) {
             // in hard mode, you get less money back when you sell items
             markdown = 0.25;
 
             // and the town is "tougher"
             toughness = 0.75;
         }
-        if (easyMode) {
+        if (mode.equals("e")) {
             markdown = 1;
             toughness = .2;
         }
@@ -158,53 +145,53 @@ public class TreasureHunter {
      * @param choice The action to process.
      */
     private void processChoice(String choice) {
-        if (choice.equals("b") || choice.equals("s")) {
-            currentTown.enterShop(choice);
-        } else if (choice.equals("m")) {
-            if (currentTown.leaveTown()) {
-                // This town is going away so print its news ahead of time.
-                System.out.println(currentTown.getLatestNews());
-                enterTown();
-            }
-        } else if (choice.equals("l")) {
-            currentTown.lookForTrouble();
-        } else if (choice.equals("h")) {
-            if (!searchedTown) {
-                System.out.println("You found a " + treasure + "!");
-                if (hunter.hasItemInContainer(treasure, hunter.getCollection())) {
-                    System.out.println("You already have this treasure!");
+        switch (choice) {
+            case "b", "s" -> currentTown.enterShop(choice);
+            case "m" -> {
+                if (currentTown.leaveTown()) {
+                    // This town is going away so print its news ahead of time.
+                    System.out.println(currentTown.getLatestNews());
+                    enterTown();
                 }
-                boolean added = hunter.addTreasure(treasure);
-                if (!added) {
-                    System.out.println("You did not add the " + treasure + ".");
-                    System.out.println("You want to keep your collection clean.");
+            }
+            case "l" -> currentTown.lookForTrouble();
+            case "h" -> {
+                if (!searchedTown) {
+                    System.out.println("You found a " + treasure + "!");
+                    if (hunter.hasItemInContainer(treasure, hunter.getCollection())) {
+                        System.out.println("You already have this treasure!");
+                    }
+                    boolean added = hunter.addTreasure(treasure);
+                    if (!added) {
+                        System.out.println("You did not add the " + treasure + ".");
+                        System.out.println("You want to keep your collection clean.");
+                    } else {
+                        win = determineWin();
+                    }
+                    searchedTown = true;
                 } else {
-                    win = determineWin();
+                    System.out.println("You have already searched this town!");
                 }
-                searchedTown = true;
-            } else {
-                System.out.println("You have already searched this town!");
             }
-        } else if (choice.equals("d")) {
-            if (hunter.hasItemInContainer("shovel", hunter.getKit()) && !dugTown) {
-                int findGold = (int) (Math.random() * 2);
-                if (findGold == 0) {
-                    int goldAmount = (int) (Math.random() * 20) + 1;
-                    System.out.println("You dug up " + goldAmount + " gold!");
-                    hunter.changeGold(goldAmount);
+            case "d" -> {
+                if (hunter.hasItemInContainer("shovel", hunter.getKit()) && !dugTown) {
+                    int findGold = (int) (Math.random() * 2);
+                    if (findGold == 0) {
+                        int goldAmount = (int) (Math.random() * 20) + 1;
+                        System.out.println("You dug up " + goldAmount + " gold!");
+                        hunter.changeGold(goldAmount);
+                    } else {
+                        System.out.println("You dug but only found dirt");
+                    }
+                    dugTown = true;
+                } else if (dugTown) {
+                    System.out.println("You already dug for gold in this town.");
                 } else {
-                    System.out.println("You dug but only found dirt");
+                    System.out.println("You can't dig for gold without a shovel");
                 }
-                dugTown = true;
-            } else if (dugTown) {
-                System.out.println("You already dug for gold in this town.");
-            } else {
-                System.out.println("You can't dig for gold without a shovel");
             }
-        } else if (choice.equals("x")) {
-            System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
-        } else {
-            System.out.println("Yikes! That's an invalid option! Try again.");
+            case "x" -> System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
+            default -> System.out.println("Yikes! That's an invalid option! Try again.");
         }
     }
 

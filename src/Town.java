@@ -97,6 +97,8 @@ public class Town {
         if (toughTown) {
             if (mode.equals("e")) {
                 noTroubleChance = .4;
+            } else if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
+                noTroubleChance = 0;
             } else {
                 noTroubleChance = 0.66;
             }
@@ -115,8 +117,13 @@ public class Town {
             printMessage = "You want trouble, stranger!" + Colors.RED + " You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
             if (Math.random() > noTroubleChance) {
-                printMessage += "Okay, stranger! You proved yer mettle." + Colors.RESET + " Here, take my gold.";
-                printMessage += "\nYou won the brawl and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
+                if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
+                    printMessage += "Ahh, this stranger has a sword! This guy's for real!" + Colors.RESET + " Here, take my gold. I'm outta here!";
+                    printMessage += "\nYou intimidated the brawler and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
+                } else {
+                    printMessage += "Okay, stranger! You proved yer mettle." + Colors.RESET + " Here, take my gold.";
+                    printMessage += "\nYou won the brawl and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
+                }
                 hunter.changeGold(goldDiff);
             } else {
                 printMessage += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!" + Colors.RESET;
