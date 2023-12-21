@@ -65,8 +65,10 @@ public class Town {
             String item = terrain.getNeededItem();
             printMessage = "You used your " + item + " to cross the " + Colors.CYAN + terrain.getTerrainName() + Colors.RESET + ".";
             if (checkItemBreak()) {
-                hunter.removeItemFromContainer(item, hunter.getKit());
-                printMessage += "\nUnfortunately, you lost your " + item + ".";
+                if (!mode.equals("e")) {
+                    hunter.removeItemFromContainer(item, hunter.getKit());
+                    printMessage += "\nUnfortunately, you lost your " + item + ".";
+                }
             }
 
             return true;
@@ -93,9 +95,18 @@ public class Town {
     public void lookForTrouble() {
         double noTroubleChance;
         if (toughTown) {
-            noTroubleChance = 0.66;
+            if (mode.equals("e")) {
+                noTroubleChance = .4;
+            } else {
+                noTroubleChance = 0.66;
+            }
+
         } else {
-            noTroubleChance = 0.33;
+            if (mode.equals("e")) {
+                noTroubleChance = .15;
+            } else {
+                noTroubleChance = 0.33;
+            }
         }
 
         if (Math.random() > noTroubleChance) {
@@ -117,6 +128,7 @@ public class Town {
 
     public String toString() {
         return "This nice little town is surrounded by " + Colors.CYAN + terrain.getTerrainName() + Colors.RESET + ".";
+
     }
 
     /**

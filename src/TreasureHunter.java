@@ -65,6 +65,7 @@ public class TreasureHunter {
         String mode = SCANNER.nextLine().toLowerCase();
         if (mode.equals("e")) {
             easyMode = true;
+            hunter.changeGold(10);
         } else if (mode.equals("h")) {
             hardMode = true;
         } else if (mode.equals("test")) {

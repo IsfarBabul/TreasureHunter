@@ -85,7 +85,8 @@ public class Shop {
      * A method that returns a string showing the items available in the shop
      * (all shops sell the same items).
      *
-     * @return the string representing the shop's items available for purchase and their prices.
+     * @return the string representing the shop'
+     * items available for purchase and their prices.
      */
     public String inventory() {
         String str = "";
