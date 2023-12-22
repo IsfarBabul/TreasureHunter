@@ -125,7 +125,7 @@ public class Town {
             printMessage = "You want trouble, stranger!" + Colors.RED + " You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
             if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
-                noTroubleChance = 0;
+                noTroubleChance = 0.042;
                 double strikeBack = Math.random();
                 if (toughTown) {
                     if (strikeBack < 0.09) {
@@ -149,17 +149,17 @@ public class Town {
                 hunter.changeGold(goldDiff);
             } else {
                 if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
-                    if (playerStrike == 0.0) {
-                        printMessage += Colors.GREEN + "This stranger's got a sword! This guy's not playing fair!" + Colors.BLUE + " Freeze, don't move or I'll shoot! If you don't play fair I won't either. Now Pay Up!";
-                        printMessage += "\nYou fled the scene and they missed their gunshot and pay nothing." + Colors.RESET;
-                    }
                     printMessage += Colors.GREEN + "This stranger's got a sword! This guy's not playing fair!" + Colors.BLUE + " Freeze, don't move or I'll shoot! If you don't play fair I won't either. Now Pay Up!";
-                    printMessage += "\nYou were held at gunpoint and pay " + Colors.YELLOW + goldDiff + Colors.GREEN + " gold. Just wow." + Colors.RESET;
+                    if (playerStrike < 0.042) {
+                        printMessage += "\nYou fled the scene and they missed their gunshot and pay nothing." + Colors.RESET;
+                    } else {
+                        printMessage += "\nYou were held at gunpoint and pay " + Colors.YELLOW + goldDiff + Colors.GREEN + " gold. Just wow." + Colors.RESET;
+                    }
                 } else {
                     printMessage += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!" + Colors.RESET;
                     printMessage += "\nYou lost the brawl and pay " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
                 }
-                if (playerStrike != 0) {
+                if (playerStrike >= 0.042) {
                     hunter.changeGold(-goldDiff);
                 }
             }

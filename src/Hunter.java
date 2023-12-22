@@ -164,7 +164,7 @@ public class Hunter {
      */
     public boolean hasItemInContainer(String item, String[] container) {
         for (String tmpItem : container) {
-            if (item.equals(tmpItem)) {
+            if (item != null && item.equals(tmpItem)) {
                 // early return
                 return true;
             }
