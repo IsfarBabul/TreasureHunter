@@ -52,7 +52,7 @@ public class Shop {
             System.out.print("What're you lookin' to buy? ");
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, true);
-            if (cost == 0) {
+            if (cost == 0 && (!item.equals("sword") || !mode.equals("s"))) {
                 System.out.println("We ain't got none of those.");
             } else {
                 System.out.print("It'll cost you " + cost + " gold. Buy it (y/n)? ");
@@ -68,7 +68,11 @@ public class Shop {
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, false);
             if (cost == 0) {
-                System.out.println("We don't want none of those.");
+                String text = "We don't want none of those.";
+                if (item.equals("sword")) {
+                    text += Colors.GREEN + " We're scared you'll threaten us with the sword if you hold it out." + Colors.RESET;
+                }
+                System.out.println(text);
             } else {
                 System.out.print(Colors.RESET + "It'll get you " + cost + " gold. Sell it (y/n)? ");
                 String option = SCANNER.nextLine().toLowerCase();
@@ -78,7 +82,6 @@ public class Shop {
                 }
             }
         }
-        System.out.println("You left the shop.");
     }
 
     /**

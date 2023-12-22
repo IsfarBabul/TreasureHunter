@@ -84,13 +84,13 @@ public class Hunter {
         if ((costOfItem == 0 && !item.equals("sword")) || (gold < costOfItem && !mode.equals("s")) || hasItemInContainer(item, kit)) {
             return false;
         }
-        if (!mode.equals("s")) {
+        if (!mode.equals("s") || item.equals("sword")) {
             gold -= costOfItem;
         } else {
             System.out.println(Colors.GREEN + "Wait, what are you doing? Why are you pulling out that sword?");
             String[] fragileItems = {"water", "rope", "boots", "shovel", "a lampshade", "a painting"};
             int randItem = (int) (Math.random() * 6);
-            System.out.println("You slash " + fragileItems[randItem] + ". You are given the requested item for free.");
+            System.out.println("You slash " + fragileItems[randItem] + ". You are given " + Colors.PURPLE + item + Colors.GREEN + " for free." + Colors.RESET);
         }
         addItem(item, kit);
         return true;

@@ -62,10 +62,15 @@ public class Town {
     public boolean leaveTown() {
         boolean canLeaveTown = terrain.canCrossTerrain(hunter);
         if (canLeaveTown) {
-            String item = terrain.getNeededItem();
+            String item;
+            if (hunter.hasItemInContainer(terrain.getNeededItem(), hunter.getKit())) {
+                item = terrain.getNeededItem();
+            } else {
+                item = terrain.getSecondaryNeededItem();
+            }
             printMessage = "You used your " + item + " to cross the " + Colors.CYAN + terrain.getTerrainName() + Colors.RESET + ".";
             if (checkItemBreak()) {
-                if (!mode.equals("e")) {
+                if (!mode.equals("e") && !item.equals("sword")) {
                     hunter.removeItemFromContainer(item, hunter.getKit());
                     printMessage += "\nUnfortunately, you lost your " + item + ".";
                 }
@@ -74,7 +79,11 @@ public class Town {
             return true;
         }
 
-        printMessage = "You can't leave town, " + hunter.getHunterName() + ". You don't have a " + Colors.CYAN + terrain.getNeededItem() + Colors.CYAN + ".";
+        if (terrain.getSecondaryNeededItem() != null) {
+            printMessage = "You can't leave town, " + hunter.getHunterName() + ". You don't have a " + Colors.CYAN + terrain.getNeededItem() + " or a " + terrain.getSecondaryNeededItem() + Colors.CYAN + ".";
+        } else {
+            printMessage = "You can't leave town, " + hunter.getHunterName() + ". You don't have a " + Colors.CYAN + terrain.getNeededItem() + Colors.CYAN + ".";
+        }
         return false;
     }
 
@@ -85,6 +94,7 @@ public class Town {
      */
     public void enterShop(String choice) {
         shop.enter(hunter, choice);
+        printMessage = "You left the shop.";
     }
 
     /**
@@ -97,8 +107,6 @@ public class Town {
         if (toughTown) {
             if (mode.equals("e")) {
                 noTroubleChance = .4;
-            } else if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
-                noTroubleChance = 0;
             } else {
                 noTroubleChance = 0.66;
             }
@@ -116,10 +124,13 @@ public class Town {
         } else {
             printMessage = "You want trouble, stranger!" + Colors.RED + " You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
+            if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
+                noTroubleChance = 0;
+            }
             if (Math.random() > noTroubleChance) {
                 if (mode.equals("s") && hunter.hasItemInContainer("sword", hunter.getKit())) {
                     printMessage += Colors.GREEN + "Ahh, this stranger has a sword! This guy's for real!" + Colors.RESET + " Here, take my gold. I'm outta here!";
-                    printMessage += Colors.GREEN + "\nYou intimidated the brawler and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
+                    printMessage += Colors.GREEN + "\nYou intimidated the brawler and receive " + Colors.YELLOW + goldDiff + Colors.GREEN + " gold. Nice going." + Colors.RESET;
                 } else {
                     printMessage += "Okay, stranger! You proved yer mettle." + Colors.RESET + " Here, take my gold.";
                     printMessage += "\nYou won the brawl and receive " + Colors.YELLOW + goldDiff + Colors.RESET + " gold.";
@@ -146,17 +157,17 @@ public class Town {
     private Terrain getNewTerrain() {
         double rnd = Math.random() * 2;
         if (rnd < .33) {
-            return new Terrain("Mountains", "Rope");
+            return new Terrain("Mountains", "Rope", null);
         } else if (rnd < .66) {
-            return new Terrain("Ocean", "Boat");
+            return new Terrain("Ocean", "Boat", null);
         } else if (rnd < .99) {
-            return new Terrain("Plains", "Horse");
+            return new Terrain("Plains", "Horse", null);
         } else if (rnd < 1.33) {
-            return new Terrain("Desert", "Water");
+            return new Terrain("Desert", "Water", null);
         } else if (rnd < 1.66) {
-            return new Terrain("Jungle", "Machete");
+            return new Terrain("Jungle", "Machete", "sword");
         } else {
-            return new Terrain("Marsh", "Boots");
+            return new Terrain("Marsh", "Boots", null);
         }
     }
 
